@@ -1,0 +1,62 @@
+{
+    "currentPage": 1,
+    "numberOfPages": 23,
+    "totalResults": 1109,
+    "data": [
+        {
+            "id": "c4f2KE",
+            "name": "'Murican Pilsner",
+            "nameDisplay": "'Murican Pilsner",
+            "abv": "5.5",
+            "glasswareId": 4,
+            "styleId": 98,
+            "status": "verified",
+            "style": {
+                "id": 98,
+                "categoryId": 8,
+                "category": {
+                    "id": 8,
+                    "name": "North American Lager",
+                    "createDate": "2012-03-21 20:06:46"
+                },
+                "name": "American-Style Pilsener",
+                "shortName": "American Pilsener",
+                "description": "This classic and unique pre-Prohibition American-style Pilsener is straw to deep gold in color. Hop bitterness, flavor and aroma are medium to high, and use of noble-type hops for flavor and aroma is preferred. Up to 25 percent corn and\/or rice in the grist should be used. Malt flavor and aroma are medium. This is a light-medium to medium-bodied beer. Sweet corn-like dimethylsulfide (DMS), fruity esters and American hop-derived citrus flavors or aromas should not be perceived. Diacetyl is not acceptable. There should be no chill haze. Competition organizers may wish to subcategorize this style into rice and corn subcategories."
+            },
+            "breweries": [
+                {
+                    "id": "nHLlnK",
+                    "name": "Sierra Nevada Brewing Company",
+                    "nameShortDisplay": "Sierra Nevada",
+                    "status": "verified",
+                    "locations": [
+                        {
+                            "id": "IaQrxj",
+                            "name": "Main Brewery",
+                            "region": "California",
+                            "countryIsoCode": "US",
+                            "country": {
+                                "isoCode": "US",
+                                "name": "UNITED STATES",
+                                "displayName": "United States",
+                                "isoThree": "USA"
+                            }
+                        },
+                        {
+                            "id": "aqLvLE",
+                            "name": "Asheville",
+                            "region": "North Carolina",
+                            "countryIsoCode": "US",
+                            "country": {
+                                "isoCode": "US",
+                                "name": "UNITED STATES",
+                                "displayName": "United States",
+                                "isoThree": "USA"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
