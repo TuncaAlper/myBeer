@@ -7,21 +7,36 @@
 .App-nav {
   height: 8vh;
   font-size: calc(10px + 3vmin);
-  background-color: rgb(39, 135, 180);
+  background-color: #0050b1;
   color: white;
   padding-top: 1vw;
 }
 .App-main {
   padding-top: 3vw;
-  height: 92vh;
+  /* height: 91vh; */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   /* justify-content: center; */
   font-size: calc(10px + 1.5vmin);
   /* background-color: rgb(200, 211, 47); */
 }
 
-/* ::-webkit-scrollbar {
-  display: none;
-} */
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 8px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid #ffffff;
+  /* should match background, can't be transparent */
+  background-color: #0050b1;
+}

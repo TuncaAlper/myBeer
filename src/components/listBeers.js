@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { apiKey, baseUrl } from '../constants'
-import axios from 'axios'
+import { apiKey, baseUrl } from '../constants';
+import axios from 'axios';
+import './lists.css';
 
 import mapL from 'lodash/map'
-
 import LoadSpinner from './loadSpinner'
 
 export default function BeerList(props) {
@@ -18,29 +18,43 @@ export default function BeerList(props) {
     })
 
     useEffect(() => {
-        loadUser()
+        loadBeer()
     }, [])
     useEffect(() => {
-        if (pageState.data && filteredBeerData.length < 10 && !pageState.loading && pageState.currentPage !== pageState.totalPages) {
-            loadMore()
+        // let allUL = document.querySelector("#beer-container")
+        // let lastLi = document.querySelector("ul#beer-container > li#beer-list:last-child")
+
+        // let lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
+        // let allUlOffset = allUL.offsetTop + (allUL.clientHeight * 0.8) + allUL.scrollTop
+        // console.log(allUlOffset, lastLiOffset, "HEY")
+        if (pageState.data && !pageState.loading && pageState.currentPage !== pageState.totalPages) {
+            if (filteredSecond.length < 10) {
+                // loadMore()
+            }
         }
     })
     useEffect(() => {
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    })
+        if (pageState.currentPage === pageState.totalPages) {
+            setPageState(prevState => ({
+                ...prevState,
+                finished: true
+            }))
+        }
+    }, [pageState.currentPage, pageState.totalPages])
 
     const handleScroll = () => {
+        let allUL = document.querySelector(".listRight-col")
         let lastLi = document.querySelector("ul#beer-container > li#beer-list:last-child")
-        let lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
-        let pageOffset = window.pageYOffset + (window.innerHeight * 0.9)
 
-        if (pageOffset > lastLiOffset && !pageState.loading && pageState.currentPage !== pageState.totalPages) {
+        let lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
+        let allUlOffset = allUL.offsetTop + allUL.clientHeight + allUL.scrollTop
+        console.log(allUlOffset, lastLiOffset, "OFF")
+        if (allUlOffset > lastLiOffset && !pageState.loading && pageState.currentPage !== pageState.totalPages) {
             loadMore()
         }
     }
 
-    const loadUser = () => {
+    const loadBeer = () => {
         console.log(pageState.nextPage, "PA")
         axios.get(`${baseUrl}beers`, {
             params: {
@@ -72,37 +86,46 @@ export default function BeerList(props) {
         if (pageState.currentPage !== pageState.nextPage) {
             setPageState(prevState => ({
                 ...prevState,
-                currentPage: prevState.currentPage === prevState.totalPages ? prevState.currentPage : prevState.currentPage + 1,
+                currentPage: prevState.currentPage + 1,
                 loading: true
             }))
-            loadUser()
-        } else {
-            setPageState(prevState => ({
-                ...prevState,
-                finished: true
-            }))
+            loadBeer()
         }
     }
 
-    const filteredBeerData = mapL(pageState.data).filter(res => res.breweries[0].locations.some(loc => loc.country.displayName === props.country))
-
+    const filteredBeerData = props.country ? mapL(pageState.data).filter(res => res.breweries[0].locations.some(loc => loc.country.displayName === mapL(props.country))) : pageState.data
+    console.log(filteredBeerData)
+    console.log(mapL(props.country), "CCC")
+    const filteredSecond = mapL(filteredBeerData).filter(res => res.style ? res.style.shortName === mapL(props.style) : false)
+    console.log(filteredSecond)
     return (
-        <div className="listBeer-container" style={{ position: "absolute", textAlign: "left", width: "30vw", right: "2vw", margin: "3vh" }}>
-            <div className="listBeer-row" >
-                <div className="listBeer-col" >
-                    <ul id="beer-container" className="w3-ul w3-border" >
-                        <li><h3 style={{ textDecoration: "underline" }}>Beers</h3></li>
-                        {filteredBeerData.length > 0 ?
-                            filteredBeerData.map((beer, index) =>
-                                <li id="beer-list" className='w3-hover-orange' key={index} onClick={e => props.handleClickBeer(e, beer)}>{beer.nameDisplay}</li>
-                            )
-                            : <li id="beer-list" className='w3-hover-orange' >No related beer yet..</li>
-                        }
-                    </ul>
-                    {pageState.loading && <LoadSpinner />}
-                    {pageState.finished && <p>It was the last beer on our database. Thank you for looking all of them.</p>}
-                </div>
-            </div>
+        <div className="listRight-col" onScroll={handleScroll}>
+            <ul id="beer-container" >
+                <h3 className="listBeer-header" >
+                    Beers {props.country ? "of " + props.country : null} {props.style ? "by types " + props.style : null}
+                    {/* <button type="button" onClick={e => props.handleClickCountry(e, "")}>X</button> */}
+                </h3>
+                {filteredSecond.length > 0 ?
+                    filteredSecond.map((beer, index) =>
+                        <li id="beer-list" key={index} onClick={e => props.handleClickBeer(e, beer)}>
+                            {beer.nameDisplay} <img src={beer.labels ? beer.labels.icon : null} alt={""} />
+                        </li>
+                    )
+                    : <li id="beer-list" >Sorry Could not find a beer based on your selections..</li>
+                }
+                {
+                    (filteredSecond.length > 0 && pageState.loading) &&
+                    <LoadSpinner />
+                }
+                {
+                    pageState.finished &&
+                    <p style={{ color: "red" }}>
+                        Well Done! It was the last beer on our database.
+                            <br />
+                            Thank you for looking all of them.
+                        </p>
+                }
+            </ul>
         </div>
     )
 }
