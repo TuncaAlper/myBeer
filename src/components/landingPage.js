@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { apiKey, baseUrl } from '../constants'
+import './lists.css';
 
 import uniq from 'lodash/uniq'
 
@@ -8,14 +9,18 @@ import LoadSpinner from './loadSpinner'
 import SearchBar from './searchBar'
 import BeerList from './listBeers'
 import CountryList from './listCountries'
+import StyleList from './listStyles'
 
 export default function LandingPage() {
     const [beerData, setBeerData] = useState([])
     const [locationsData, setLocationsData] = useState([])
+    const [stylesData, setStylesData] = useState([])
 
-    const [country, setCountry] = useState()
-    const [reqBeer, setReqBeer] = useState({ value: false, name: "" })
-    const [beer, setBeer] = useState()
+    const [country, setCountry] = useState([])
+    const [style, setStyle] = useState([])
+    const [beer, setBeer] = useState("")
+
+    const [searchBeer, setSearchBeer] = useState({ value: false, name: "" })
 
     const [loading, setLoading] = useState(false)
     const [errorMsg, setErrorMsg] = useState(null)
@@ -29,19 +34,27 @@ export default function LandingPage() {
             })
             setLocationsData(result.data.data)
         }
+        const fetchStyleData = async () => {
+            const result = await axios.get(`${baseUrl}styles`, {
+                params: {
+                    key: apiKey
+                }
+            })
+            setStylesData(result.data.data)
+        }
         fetchLocationData()
+        fetchStyleData()
     }, [])
 
     useEffect(() => {
-        if (reqBeer.value) {
+        if (searchBeer.value) {
             setLoading(true)
             axios
-                // .get(`${baseUrl}beers/`, {
                 .get(`${baseUrl}search/`, {
                     params: {
                         key: apiKey,
                         // p: page,
-                        q: reqBeer.name,
+                        q: searchBeer.name,
                         withBreweries: 'Y',
                         withLocations: 'Y'
                     }
@@ -57,25 +70,29 @@ export default function LandingPage() {
                 })
 
             return () => {
-                setReqBeer(prevState => ({
+                setSearchBeer(prevState => ({
                     ...prevState,
                     value: false
                 }))
             }
         }
-    }, [reqBeer])
+    }, [searchBeer])
 
 
     const handleSearchBeer = (e) => {
         e.preventDefault()
-        setReqBeer(prevState => ({
+        setSearchBeer(prevState => ({
             ...prevState,
             value: true
         }))
     }
     const handleClickCountry = (e, value) => {
         e.preventDefault()
-        setCountry(value)
+        setCountry(country.concat(value))
+    }
+    const handleClickStyle = (e, value) => {
+        e.preventDefault()
+        setStyle(style.concat(value))
     }
     const handleClickBeer = (e, value) => {
         e.preventDefault()
@@ -87,35 +104,50 @@ export default function LandingPage() {
     }
     const handleInputSearch = (e) => {
         const beerName = e.target.value
-        setReqBeer(prevState => ({
+        setSearchBeer(prevState => ({
             ...prevState,
             name: beerName
         }))
     }
 
     const countries = uniq(locationsData.map(res => res.country.displayName))
-
+    const styles = uniq(stylesData.map(res => res.shortName))
 
     if (loading) {
         return <LoadSpinner />
     } else if (true) {
+        console.log(country, style)
         return (
             <div>
                 <SearchBar
                     handleInputSearch={handleInputSearch}
                     handleSearchBeer={handleSearchBeer}
                 />
-
-                <CountryList
-                    countries={countries}
-                    handleClickCountry={handleClickCountry}
-                />
-                {country &&
-                    <BeerList
-                        handleClickBeer={handleClickBeer}
-                        country={country}
-                    />
-                }
+                <div className="lists-container" >
+                    <div className="listLeft-col" >
+                        <CountryList
+                            countries={countries}
+                            handleClickCountry={handleClickCountry}
+                        />
+                    </div>
+                    <div className="listMiddle-col" >
+                        <StyleList
+                            styles={styles}
+                            handleClickStyle={handleClickStyle}
+                        />
+                    </div>
+                    {/* <div className="listRight-col" > */}
+                    {
+                        (country || style) &&
+                        <BeerList
+                            handleClickBeer={handleClickBeer}
+                            handleClickCountry={handleClickCountry}
+                            country={country}
+                            style={style}
+                        />
+                    }
+                    {/* </div> */}
+                </div>
             </div>
         )
     } else if (beerData && !errorMsg) {

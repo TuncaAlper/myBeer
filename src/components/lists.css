@@ -1,0 +1,88 @@
+ul {
+    padding-inline-start: 2vw;
+}
+
+ul li {
+    list-style-type: none;
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+
+.lists-container {
+    text-align: left;
+    height: 72vh;
+    font-size: calc(6px + 1vmin);
+    margin-inline-start: 0rem;
+    margin-top: 3vh;
+}
+
+.listLeft-col {
+    overflow: auto;
+    width: 25vw;
+    height: 100%;
+    float: left;
+}
+
+.listMiddle-col {
+    overflow: auto;
+    height: 100%;
+    width: 25vw;
+    float: left;
+}
+
+.listMiddle-col::-webkit-scrollbar-thumb {
+    background-color: rgb(61, 168, 218);
+}
+
+.listRight-col {
+    overflow: auto;
+    height: 100%;
+    width: 45vw;
+}
+
+.listRight-col::-webkit-scrollbar-thumb {
+    background-color: rgb(226, 168, 61);
+}
+
+.lists-container h3 {
+    text-decoration: underline;
+    position: sticky;
+    top: 0;
+    color: whitesmoke;
+    background-color: rgb(61, 168, 218);
+    padding: 2vmin;
+    border-radius: 0.25rem;
+    z-index: 1;
+    margin-block-start: 1vh;
+    margin-block-end: 1vh;
+}
+
+.lists-container .listBeer-header {
+    background-color: rgb(226, 168, 61);
+    padding: 1.5vmin;
+    text-decoration: none;
+}
+
+ul #beer-list img {
+    position: absolute;
+    right: 0;
+    height: 70%;
+}
+
+/* .lists-container .listBeer-header button{
+    position: absolute;
+    right: 1%;
+    top: 10%;
+    color: inherit;
+    background-color: inherit;
+    border: inherit;
+    font-size: large;
+} */
+
+/* #007bff */
+
+/* #0050b1 */
+
+/* rgb(39, 135, 180) */
