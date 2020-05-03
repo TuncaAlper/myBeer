@@ -9,7 +9,7 @@ export default function BeerCard(props) {
     return (
         <div className="horizontal-card-container">
             <div className="hcard-logo-container">
-                <img src={bData.labels ? bData.labels.icon : null} alt={null}></img>
+                <img src={bData.labels ? bData.labels.icon : null} alt={""}></img>
             </div>
             <div className="hcard-detail-container">
                 <div className="hcard-data-container">
