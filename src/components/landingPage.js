@@ -13,11 +13,6 @@ import CountryList from './listCountries'
 import StyleList from './listStyles'
 import BeerCard from './beerCard'
 
-import MuckCountry from './exampleCountry.json'
-import MuckStyle from './exampleStyle.json'
-import MuckBeer from './exampleBeer.json'
-import MuckSearch from './exampleSearch.json'
-
 export default function LandingPage() {
     const [beerData, setBeerData] = useState([])
     const [locationsData, setLocationsData] = useState([])
@@ -25,7 +20,7 @@ export default function LandingPage() {
 
     const [country, setCountry] = useState({})
     const [style, setStyle] = useState({})
-    const [beer, setBeer] = useState("")
+    // const [beer, setBeer] = useState("")
 
     const [searchBeer, setSearchBeer] = useState({ value: false, name: "" })
 
@@ -66,7 +61,6 @@ export default function LandingPage() {
                     }
                 })
                 .then(res => {
-                    console.log(res)
                     setBeerData(res.data.data)
                     setLoading(false)
                 })
@@ -104,10 +98,10 @@ export default function LandingPage() {
             { ...prevState, [name]: !style[name] }
         ))
     }
-    const handleClickBeer = (e, value) => {
-        e.preventDefault()
-        setBeer(value)
-    }
+    // const handleClickBeer = (e, value) => {
+    //     e.preventDefault()
+    //     setBeer(value)
+    // }
     const handleClickBack = (e) => {
         e.preventDefault()
         setErrorMsg(null)
@@ -123,7 +117,6 @@ export default function LandingPage() {
 
     const countries = uniq(locationsData.map(res => res.country.displayName))
     const styles = uniq(stylesData.map(res => res.shortName))
-    console.log(loading)
     if (loading) {
         return (
             <>
@@ -159,7 +152,7 @@ export default function LandingPage() {
                     {
                         (!isEmpty(country) || !isEmpty(style)) &&
                         <BeerList
-                            handleClickBeer={handleClickBeer}
+                            // handleClickBeer={handleClickBeer}
                             handleClickCountry={handleClickCountry}
                             country={country}
                             style={style}

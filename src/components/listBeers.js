@@ -6,7 +6,6 @@ import './lists.css';
 import mapL from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import LoadSpinner from './loadSpinner'
-import MuckBeer from './exampleBeer.json'
 
 export default function BeerList(props) {
 
@@ -42,7 +41,7 @@ export default function BeerList(props) {
     const handleScroll = () => {
         let allUL = document.querySelector(".listRight-col")
         let lastLi = document.querySelector("ul#beer-container > li#beer-list:last-child")
-        console.log(lastLi)
+
         let lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
         let allUlOffset = allUL.offsetTop + allUL.clientHeight + allUL.scrollTop
 
@@ -52,7 +51,6 @@ export default function BeerList(props) {
     }
 
     const loadBeer = () => {
-        console.log(pageState.nextPage, "PA")
         axios.get(`${baseUrl}beers`, {
             params: {
                 key: apiKey,
@@ -94,7 +92,6 @@ export default function BeerList(props) {
         mapL(pageState.data).filter(res => res.breweries[0].locations.some(loc => props.country[loc.country.displayName]))
         : pageState.data
 
-    // console.log(mapL(filteredBeerData).filter(res => res.style ? props.style[res.style.shortName] : false))
     const filteredSecond = !isEmpty(props.style) && Object.values(props.style).includes(true) ?
         mapL(filteredBeerData).filter(res => res.style ? props.style[res.style.shortName] : false)
         : filteredBeerData
@@ -106,22 +103,25 @@ export default function BeerList(props) {
             <ul id="beer-container" >
                 <h3 className="listBeer-header" >
                     Beers
-                    {/* <button type="button" onClick={e => props.handleClickCountry(e, "")}>X</button> */}
                 </h3>
                 <input
                     className="lists-input-search"
                     type="text"
                     placeholder="Search for a beer.."
                     onChange={e => setSearchBeer(e.target.value)}
-                    style={{ border: "1px solid rgb(226, 168, 61)", width: "95%" }}
+                    style={{ border: "1px solid rgb(226, 168, 61)", width: "94.5%" }}
                 />
                 {
                     !isEmpty(searchedBeer) ?
-                            searchedBeer.map((beer, index) =>
-                                <li id="beer-list" key={index} onClick={e => props.handleClickBeer(e, beer)}>
-                                    {beer.nameDisplay} <img src={beer.labels ? beer.labels.icon : null} alt={""} />
-                                </li>
-                            )
+                        searchedBeer.map((beer, index) =>
+                            <li
+                                id="beer-list"
+                                key={index}
+                                // onClick={e => props.handleClickBeer(e, beer)}
+                            >
+                                {beer.nameDisplay} <img src={beer.labels ? beer.labels.icon : null} alt={""} />
+                            </li>
+                        )
                         : <li id="beer-list">Looking for more beer..</li>
 
                 }
