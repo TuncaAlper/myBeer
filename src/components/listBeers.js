@@ -51,7 +51,6 @@ export default function BeerList(props) {
     }
 
     const loadBeer = () => {
-        console.log(pageState.nextPage, "PA")
         axios.get(`${baseUrl}beers`, {
             params: {
                 key: apiKey,
