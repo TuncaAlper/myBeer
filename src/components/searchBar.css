@@ -1,6 +1,10 @@
 .search-bar-container {
     position: relative;
-    /* width: 50%; */
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
 }
 
 .search-bar input[type=text] {
@@ -11,7 +15,7 @@
     border: none;
     background: #fff;
     color: #262626;
-    border-radius:99em 0 0 99em;
+    border-radius: 99em 0 0 99em;
     text-align: center;
     border-right: none;
     box-shadow: 0 1px 6px 0 #20212447;
@@ -20,22 +24,7 @@
 }
 
 .search-bar input[type=text]:focus {
-    border-radius:12px 0 0 0;
-}
-
-.search-bar button {
-    width: 8vw;
-    padding: 1vw 0;
-    background-color: #0050b1;
-    font-size: 1vw;
-    font-weight: bold;
-    color: #ffffff;
-    border: none;
-    border-left: none;
-    border-radius:0 99em 99em 0;
-    box-shadow: 0 1px 6px 0 #20212447;
-    -moz-box-shadow: 0 1px 6px 0 #20212447;
-    -webkit-box-shadow: 0 1px 6px 0 #20212447;
+    border-radius: 12px 0 0 0;
 }
 
 .search-bar input::placeholder {
@@ -49,34 +38,8 @@
     color: #2626264d;
 }
 
-.search-bar{
-    display: flex;
-    justify-content: center;
+.search-bar button {
+    border-left: none;
+    border-radius: 0 99em 99em 0;
+    margin-left: unset;
 }
-
-
-/* Ripple effect */
-.ripple {
-    background-position: center;
-    transition: background 0.8s;
-  }
-  .ripple:hover {
-    background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%) center/15000%;
-  }
-  .ripple:active {
-    background-color: #6eb9f7;
-    background-size: 100%;
-    transition: background 0s;
-  }
-
-/* @media only screen and (max-width: 479px) {
-    .search-bar input[type=text] {
-        background: #ffffff;
-    }
-}
-
-@media only screen and (max-width: 760px) {
-    .search-bar-container {
-        display: none;
-    }
-} */

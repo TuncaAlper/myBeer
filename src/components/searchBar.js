@@ -13,7 +13,8 @@ export default function SearchBar(props) {
                     onChange={e => props.handleInputSearch(e)}
                     placeholder="Search a beer brand"
                 />
-                <button className="ripple"
+                <button
+                className="defined-button"
                     type="submit"
                     onClick={e => props.handleSearchBeer(e)}
                 >Search </button>

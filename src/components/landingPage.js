@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { apiKey, baseUrl } from '../constants'
-import './lists.css';
-
+import './lists.css'
+import './button.css'
 import uniq from 'lodash/uniq'
+import isEmpty from 'lodash/isEmpty'
 
 import LoadSpinner from './loadSpinner'
 import SearchBar from './searchBar'
 import BeerList from './listBeers'
 import CountryList from './listCountries'
 import StyleList from './listStyles'
+import BeerCard from './beerCard'
+
+import MuckCountry from './exampleCountry.json'
+import MuckStyle from './exampleStyle.json'
+import MuckBeer from './exampleBeer.json'
+import MuckSearch from './exampleSearch.json'
 
 export default function LandingPage() {
     const [beerData, setBeerData] = useState([])
     const [locationsData, setLocationsData] = useState([])
     const [stylesData, setStylesData] = useState([])
 
-    const [country, setCountry] = useState([])
-    const [style, setStyle] = useState([])
+    const [country, setCountry] = useState({})
+    const [style, setStyle] = useState({})
     const [beer, setBeer] = useState("")
 
     const [searchBeer, setSearchBeer] = useState({ value: false, name: "" })
@@ -53,7 +60,6 @@ export default function LandingPage() {
                 .get(`${baseUrl}search/`, {
                     params: {
                         key: apiKey,
-                        // p: page,
                         q: searchBeer.name,
                         withBreweries: 'Y',
                         withLocations: 'Y'
@@ -61,7 +67,7 @@ export default function LandingPage() {
                 })
                 .then(res => {
                     console.log(res)
-                    // setBeerData(res.data)
+                    setBeerData(res.data.data)
                     setLoading(false)
                 })
                 .catch(err => {
@@ -86,13 +92,17 @@ export default function LandingPage() {
             value: true
         }))
     }
-    const handleClickCountry = (e, value) => {
+    const handleClickCountry = (e, name) => {
         e.preventDefault()
-        setCountry(country.concat(value))
+        setCountry(prevState => (
+            { ...prevState, [name]: !country[name] }
+        ))
     }
-    const handleClickStyle = (e, value) => {
+    const handleClickStyle = (e, name) => {
         e.preventDefault()
-        setStyle(style.concat(value))
+        setStyle(prevState => (
+            { ...prevState, [name]: !style[name] }
+        ))
     }
     const handleClickBeer = (e, value) => {
         e.preventDefault()
@@ -101,6 +111,7 @@ export default function LandingPage() {
     const handleClickBack = (e) => {
         e.preventDefault()
         setErrorMsg(null)
+        setBeerData([])
     }
     const handleInputSearch = (e) => {
         const beerName = e.target.value
@@ -112,11 +123,18 @@ export default function LandingPage() {
 
     const countries = uniq(locationsData.map(res => res.country.displayName))
     const styles = uniq(stylesData.map(res => res.shortName))
-
+    console.log(loading)
     if (loading) {
-        return <LoadSpinner />
-    } else if (true) {
-        console.log(country, style)
+        return (
+            <>
+                <h5>
+                    Looking for beers based on your request..
+                    <br />
+                    <LoadSpinner />
+                </h5>
+            </>
+        )
+    } else if (isEmpty(beerData) && !errorMsg) {
         return (
             <div>
                 <SearchBar
@@ -127,18 +145,19 @@ export default function LandingPage() {
                     <div className="listLeft-col" >
                         <CountryList
                             countries={countries}
+                            country={country}
                             handleClickCountry={handleClickCountry}
                         />
                     </div>
                     <div className="listMiddle-col" >
                         <StyleList
+                            style={style}
                             styles={styles}
                             handleClickStyle={handleClickStyle}
                         />
                     </div>
-                    {/* <div className="listRight-col" > */}
                     {
-                        (country || style) &&
+                        (!isEmpty(country) || !isEmpty(style)) &&
                         <BeerList
                             handleClickBeer={handleClickBeer}
                             handleClickCountry={handleClickCountry}
@@ -146,23 +165,27 @@ export default function LandingPage() {
                             style={style}
                         />
                     }
-                    {/* </div> */}
                 </div>
             </div>
         )
     } else if (beerData && !errorMsg) {
         return (
-            <div>
+            <div >
+                <button
+                    className="defined-button"
+                    type="button"
+                    onClick={e => handleClickBack(e)}
+                >
+                    Go Back!
+                </button>
+                <br />
 
                 {
-                    beerData.data.map((beers, index) =>
-                        <li>
-                            {/* <BeerCard
-                                // page={page}
-                                key={index}
-                                data={beers}
-                            /> */}
-                        </li>
+                    beerData.map((beers, index) =>
+                        <BeerCard
+                            key={index}
+                            data={beers}
+                        />
                     )}
             </div>
         )
@@ -174,7 +197,7 @@ export default function LandingPage() {
                 {errorMsg}
                 <br />
                 <button type="button" onClick={e => handleClickBack(e)}>
-                    Go back!
+                    Go Back!
                 </button>
             </div>
         )
