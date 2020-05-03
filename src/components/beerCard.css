@@ -1,88 +1,93 @@
-.beerCard-main-container {
+.horizontal-card-container {
+    position: relative;
+    display: inline-block;
+    height: 500px;
+    width: 320px;
+    margin: 10px;
+    background-color: #ffffff;
+    margin: 10px 10px 30px 10px;
+    text-align: center;
+    font-family: Avenir, Tahoma, sans-serif;
     box-shadow: 0 10px 20px #00000030, 0 6px 6px #0000003b;
     -moz-box-shadow: 0 10px 20px #00000030, 0 6px 6px #0000003b;
     -webkit-box-shadow: 0 10px 20px #00000030, 0 6px 6px #0000003b;
-    border-radius: 24px;
-    width: 300px;
-    height: 100%;
+}
+
+.hcard-logo-container {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: none;
+    margin-right: 10px;
+    padding-top: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.hcard-logo-container img {
+    max-width: 120px;
+    max-height: 60px;
+}
+
+.hcard-detail-container {
+    width: 100%;
+    height: 400px;
+    display: block;
+    position: relative;
+    float: none;
+}
+
+.hcard-data-container {
+    border-bottom: 1px solid #d2d2d29f;
+    width: 100%;
+    height: 330px;
+    position: relative;
+    display: block;
+    float: none;
+}
+
+.hcard-data-name {
+    height: 40px;
+    font-size: 1em;
+    padding: 0;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hcard-data-description {
+    height: 290px;
+    overflow: scroll;
+    font-size: .75em;
+    color: #494848;
+    padding:0 15px;
+    text-align: justify;
+    word-break: break-word;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+}
+
+.hcard-data-tags {
+    height: 70px;
+    position: relative;
+    bottom: 0;
     background-color: #fff;
-    margin: 30px 20px;
-    font-family: Avenir, Tahoma, Helvetica, sans-serif;
-    color:#262626;
-    transition: transform .2s ease, box-shadow .5s ease;
 }
 
-.beerCard-main-container:hover {
-    box-shadow: 0 10px 20px #00000030, 0 40px 30px #0000003b;
-    -moz-box-shadow: 0 10px 20px #00000030, 0 40px 30px #0000003b;
-    -webkit-box-shadow: 0 10px 20px #00000030, 0 40px 30px #0000003b;
-    transform: scale(1.05, 1.05);
-}
-
-.beerCard-title-container {
-    width: 100%;
-    height: 100px;
-    display: flex;
-    justify-content: center;
+.hcard-data-tags label {
+    text-align: center;
+    background-color: #0050b1;
+    display: inline-flex;
     align-items: center;
-    border-bottom: .5px solid #fafafa;
-}
-
-.beerCard-main-title {
-    padding: 5px 10px;
-    font-size: 1.5rem;
-    /* color: #262626; */
-}
-
-.beerCard-detail-container {
-    width: 100%;
-    height: 100px;
-    border-bottom: .5px solid #fafafa;
-}
-
-.beerCard-detail-title {
-    padding: 0 10px;
-}
-
-.beerCard-detail-subtitle {
-    padding: 5px 10px;
-    color: #0050b1;
+    color: #ffffff;
+    border-radius: 99em;
+    margin: 5px 15px 2px 0;
+    font-weight: 600;
     font-size: .8rem;
+    height: 20px;
+    padding: 1px 12px;
 }
 
-.beerCard-button-container {
-    width: 100%;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.beerCard-push-btn {
-    padding: 6px 10px;
-    width: 200px;
-    text-align: center;
-    /* background-color: #009c00; */
-    /* background-color: #0864A4; */
-    /* background-color: #000092; */
-    background-color: #0864A4;
-    color: #fff;
-    border-radius: 4px;
-}
-
-.beerCard-push-btn:hover {
-    background-color: #008000;
-}
-.beerCard-cancel-btn {
-    margin-top: 10px;
-    padding: 3px 10px;
-    width: 100px;
-    text-align: center;
-    border: 1px solid #ff0000;
-    color: #ff0000;
-    border-radius: 4px;
-}
-
-.beerCard-cancel-btn:hover {
-    background-color: #fafafa;
-}

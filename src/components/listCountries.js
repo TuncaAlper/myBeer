@@ -3,16 +3,21 @@ import LoadSpinner from './loadSpinner';
 import './lists.css';
 
 export default function CountryList(props) {
+    const sortedCountries = props.countries.sort()
 
     return (
         <ul id="country-container" >
-            <h3 className="listLeft-header">Search by Country</h3>
+            <h3 >Search by Country</h3>
             {
-                props.countries.length > 0 ?
-                    props.countries.map((country, index) =>
-
-                        <li className="country-list" key={index} onClick={e => props.handleClickCountry(e, country)}>
-                            {country}
+                sortedCountries.length > 0 ?
+                    sortedCountries.map((res, index) =>
+                        <li
+                            className="country-list"
+                            key={index}
+                            onClick={e => props.handleClickCountry(e, res)}
+                            style={{ backgroundColor: props.country[res] && "rgb(61, 168, 218, 0.2)" }}
+                        >
+                            {res}
                         </li>
                     )
                     : <LoadSpinner />

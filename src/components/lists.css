@@ -1,12 +1,22 @@
 ul {
-    padding-inline-start: 2vw;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+h3 {
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    margin-block-start: 0;
+    margin-block-end: 1vh;
 }
 
 ul li {
     list-style-type: none;
     position: relative;
     display: block;
-    padding: .75rem 1.25rem;
+    padding: .75rem 1rem;
     border: 1px solid rgba(0, 0, 0, .125);
 }
 
@@ -15,7 +25,7 @@ ul li {
     height: 72vh;
     font-size: calc(6px + 1vmin);
     margin-inline-start: 0rem;
-    margin-top: 3vh;
+    margin-top: 2vh;
 }
 
 .listLeft-col {
@@ -23,6 +33,7 @@ ul li {
     width: 25vw;
     height: 100%;
     float: left;
+    margin-right: 2vw;
 }
 
 .listMiddle-col {
@@ -30,6 +41,7 @@ ul li {
     height: 100%;
     width: 25vw;
     float: left;
+    margin-right: 2vw;
 }
 
 .listMiddle-col::-webkit-scrollbar-thumb {
@@ -39,7 +51,7 @@ ul li {
 .listRight-col {
     overflow: auto;
     height: 100%;
-    width: 45vw;
+    width: 43vw;
 }
 
 .listRight-col::-webkit-scrollbar-thumb {
@@ -52,16 +64,15 @@ ul li {
     top: 0;
     color: whitesmoke;
     background-color: rgb(61, 168, 218);
-    padding: 2vmin;
+    padding: 2vw;
     border-radius: 0.25rem;
     z-index: 1;
-    margin-block-start: 1vh;
-    margin-block-end: 1vh;
+    text-align: center;
 }
 
 .lists-container .listBeer-header {
     background-color: rgb(226, 168, 61);
-    padding: 1.5vmin;
+    padding: 1.5vw;
     text-decoration: none;
 }
 
@@ -69,6 +80,21 @@ ul #beer-list img {
     position: absolute;
     right: 0;
     height: 70%;
+}
+
+ul .lists-input-search {
+    background-image: url('../res/searchIcon.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px;
+    background-position-x: 98%;
+    padding: 1vw;
+    font-size: inherit;
+    width: 91%;
+    position: relative;
+    display: block;
+    border: 1px solid rgb(61, 168, 218);
+    margin-bottom: 1vw;
 }
 
 /* .lists-container .listBeer-header button{
@@ -80,9 +106,3 @@ ul #beer-list img {
     border: inherit;
     font-size: large;
 } */
-
-/* #007bff */
-
-/* #0050b1 */
-
-/* rgb(39, 135, 180) */

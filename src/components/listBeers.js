@@ -4,7 +4,9 @@ import axios from 'axios';
 import './lists.css';
 
 import mapL from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
 import LoadSpinner from './loadSpinner'
+import MuckBeer from './exampleBeer.json'
 
 export default function BeerList(props) {
 
@@ -16,20 +18,15 @@ export default function BeerList(props) {
         loading: true,
         finished: false
     })
+    const [searchBeer, setSearchBeer] = useState("")
 
     useEffect(() => {
         loadBeer()
     }, [])
     useEffect(() => {
-        // let allUL = document.querySelector("#beer-container")
-        // let lastLi = document.querySelector("ul#beer-container > li#beer-list:last-child")
-
-        // let lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
-        // let allUlOffset = allUL.offsetTop + (allUL.clientHeight * 0.8) + allUL.scrollTop
-        // console.log(allUlOffset, lastLiOffset, "HEY")
         if (pageState.data && !pageState.loading && pageState.currentPage !== pageState.totalPages) {
             if (filteredSecond.length < 10) {
-                // loadMore()
+                loadMore()
             }
         }
     })
@@ -45,10 +42,10 @@ export default function BeerList(props) {
     const handleScroll = () => {
         let allUL = document.querySelector(".listRight-col")
         let lastLi = document.querySelector("ul#beer-container > li#beer-list:last-child")
-
+        console.log(lastLi)
         let lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
         let allUlOffset = allUL.offsetTop + allUL.clientHeight + allUL.scrollTop
-        console.log(allUlOffset, lastLiOffset, "OFF")
+
         if (allUlOffset > lastLiOffset && !pageState.loading && pageState.currentPage !== pageState.totalPages) {
             loadMore()
         }
@@ -93,39 +90,59 @@ export default function BeerList(props) {
         }
     }
 
-    const filteredBeerData = props.country ? mapL(pageState.data).filter(res => res.breweries[0].locations.some(loc => loc.country.displayName === mapL(props.country))) : pageState.data
-    console.log(filteredBeerData)
-    console.log(mapL(props.country), "CCC")
-    const filteredSecond = mapL(filteredBeerData).filter(res => res.style ? res.style.shortName === mapL(props.style) : false)
-    console.log(filteredSecond)
+    const filteredBeerData = !isEmpty(props.country) && Object.values(props.country).includes(true) ?
+        mapL(pageState.data).filter(res => res.breweries[0].locations.some(loc => props.country[loc.country.displayName]))
+        : pageState.data
+
+    // console.log(mapL(filteredBeerData).filter(res => res.style ? props.style[res.style.shortName] : false))
+    const filteredSecond = !isEmpty(props.style) && Object.values(props.style).includes(true) ?
+        mapL(filteredBeerData).filter(res => res.style ? props.style[res.style.shortName] : false)
+        : filteredBeerData
+
+    const searchedBeer = filteredSecond.filter(res => res.nameDisplay.toLowerCase().includes(searchBeer.toLowerCase()))
+
     return (
         <div className="listRight-col" onScroll={handleScroll}>
             <ul id="beer-container" >
                 <h3 className="listBeer-header" >
-                    Beers {props.country ? "of " + props.country : null} {props.style ? "by types " + props.style : null}
+                    Beers
                     {/* <button type="button" onClick={e => props.handleClickCountry(e, "")}>X</button> */}
                 </h3>
-                {filteredSecond.length > 0 ?
-                    filteredSecond.map((beer, index) =>
-                        <li id="beer-list" key={index} onClick={e => props.handleClickBeer(e, beer)}>
-                            {beer.nameDisplay} <img src={beer.labels ? beer.labels.icon : null} alt={""} />
-                        </li>
-                    )
-                    : <li id="beer-list" >Sorry Could not find a beer based on your selections..</li>
-                }
+                <input
+                    className="lists-input-search"
+                    type="text"
+                    placeholder="Search for a beer.."
+                    onChange={e => setSearchBeer(e.target.value)}
+                    style={{ border: "1px solid rgb(226, 168, 61)", width: "95%" }}
+                />
                 {
-                    (filteredSecond.length > 0 && pageState.loading) &&
-                    <LoadSpinner />
-                }
-                {
-                    pageState.finished &&
-                    <p style={{ color: "red" }}>
-                        Well Done! It was the last beer on our database.
-                            <br />
-                            Thank you for looking all of them.
-                        </p>
+                    !isEmpty(searchedBeer) ?
+                            searchedBeer.map((beer, index) =>
+                                <li id="beer-list" key={index} onClick={e => props.handleClickBeer(e, beer)}>
+                                    {beer.nameDisplay} <img src={beer.labels ? beer.labels.icon : null} alt={""} />
+                                </li>
+                            )
+                        : <li id="beer-list">Looking for more beer..</li>
+
                 }
             </ul>
+            {
+                pageState.finished && (
+                    isEmpty(searchedBeer)
+                        ? <p style={{ color: "red" }}>
+                            Sorry Could not find a beer based on your selections..
+                            </p>
+                        : <p style={{ color: "red" }}>
+                            Well Done! It was the last beer on our database.
+                            <br />
+                            Thank you for looking all of them.
+                            </p>
+                )
+            }
+            {
+                (pageState.loading) &&
+                <LoadSpinner />
+            }
         </div>
     )
 }
